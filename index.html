@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Instant PHP/Coin Converter & Pricelist</title>
+    <title>KOPI_MOKA TOOLS</title>
     
     <link rel="manifest" href="manifest.json">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Coin Converter">
+    <meta name="apple-mobile-web-app-title" content="KOPI_MOKA">
     <meta name="mobile-web-app-capable" content="yes">
     
     <link rel="apple-touch-icon" sizes="512x512" href="peso.png">
@@ -50,7 +50,7 @@
             background: rgba(255, 255, 255, 0.25); 
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            padding: 30px; 
+            padding: 25px; 
             border-radius: 16px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.35); 
             text-align: center; 
@@ -61,6 +61,7 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             user-select: none;
             box-sizing: border-box;
+            z-index: 10;
         }
         
         .rating-display {
@@ -68,26 +69,26 @@
             top: 15px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 14px; 
+            font-size: 13px; 
             font-weight: 900; 
             color: #000000;
             text-transform: uppercase;
             letter-spacing: 0.8px;
             text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.5);
             background: rgba(255, 255, 255, 0.35); 
-            padding: 6px 14px; 
+            padding: 6px 12px; 
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             white-space: nowrap;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            z-index: 4;
+            z-index: 12;
         }
 
         .mode-btn {
             position: absolute;
-            top: 17px;
+            top: 16px;
             left: 15px;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
             font-size: 10px;
             font-weight: bold;
@@ -98,7 +99,7 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
             transition: background-color 0.2s ease;
-            z-index: 5;
+            z-index: 15;
         }
         
         .bg-green { background-color: #2e7d32; }
@@ -106,15 +107,15 @@
         .bg-blue { background-color: #1a73e8; }
         .bg-blue:hover { background-color: #1557b0; }
         
-        /* ACTIONS WRAPPER (TOP RIGHT CORNER) */
+        /* ACTIONS WRAPPER (TOP RIGHT CORNER) - FIXED BUTTON CLICK & SIZES */
         .top-right-actions {
             position: absolute;
-            top: 18px;
+            top: 16px;
             right: 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            z-index: 5;
+            gap: 8px;
+            z-index: 25;
         }
 
         .action-icon-btn {
@@ -124,18 +125,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 6px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
+            padding: 5px; /* Tighter box layout */
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 28px;  /* Compact size lock */
+            height: 28px;
+            box-sizing: border-box;
         }
         .action-icon-btn:hover {
-            transform: scale(1.15);
-            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.5);
         }
         .action-icon-btn img {
-            width: 20px;
-            height: 20px;
+            width: 16px !important;  /* Controls the explicit icon size */
+            height: 16px !important;
             object-fit: contain;
         }
         
@@ -147,7 +151,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.55); 
-            z-index: 1000;
+            z-index: 3000;
             justify-content: center;
             align-items: center;
         }
@@ -283,20 +287,21 @@
         }
 
         /* ----------------------------------------------------
-           PRICELIST OVERLAY MODAL STYLING (FIXED SCROLL & WOBBLE)
+           PRICELIST OVERLAY MODAL STYLING (TOUCH LOCK FIXES)
         ---------------------------------------------------- */
         .pricelist-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.65);
-            z-index: 2000;
+            z-index: 4000; /* Stays clean on top when explicitly active */
             justify-content: center;
             align-items: flex-start;
-            overflow-x: hidden; /* Lock horizontal slide */
-            overflow-y: auto; /* Allow natural scrolling */
+            overflow-x: hidden; 
+            overflow-y: auto; 
             padding: 15px 0;
             -webkit-overflow-scrolling: touch;
+            pointer-events: auto; /* Re-enabled for active display */
         }
 
         .pricelist-container-box {
@@ -304,11 +309,11 @@
             background: #f4f6f9;
             border-radius: 16px;
             width: 95%;
-            max-width: 480px;
+            max-width: 450px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Hard lock horizontal layout escaping */
+            overflow: hidden; 
             margin-top: 5px;
             margin-bottom: 20px;
         }
@@ -321,7 +326,7 @@
             font-weight: bold;
             color: #333;
             cursor: pointer;
-            z-index: 2100;
+            z-index: 4200;
             background: rgba(255, 255, 255, 0.7);
             width: 32px;
             height: 32px;
@@ -363,10 +368,9 @@
         .pdf-btn { background: linear-gradient(135deg, #ff7675, #d63031); }
         .random-btn { background: linear-gradient(135deg, #a29bfe, #6c5ce7); flex: 1; }
 
-        /* SCALER WRAPPER LOCK FOR HIGH-RESOLUTION PREVIEW */
         .scale-wrapper-inner {
             width: 100%;
-            overflow: hidden; /* Stop horizontal shifting/overflow entirely */
+            overflow: hidden; 
             background: #ddd;
             display: flex;
             justify-content: center;
@@ -374,7 +378,7 @@
             padding: 0;
             margin: 0;
             box-sizing: border-box;
-            touch-action: pan-y; /* Force touch responses to remain vertical-only */
+            touch-action: pan-y; 
         }
 
         :root {
@@ -572,4 +576,211 @@ function formatAndCalculate(input) {
     let formattedValue = parseInt(cleanValue, 10).toLocaleString('en-US');
     input.value = formattedValue;
     let newLength = formattedValue.length;
-    input.setSelectionRange(cursorPosition + (newLength - originalLength), cursorPosition + (
+    input.setSelectionRange(cursorPosition + (newLength - originalLength), cursorPosition + (newLength - originalLength));
+    calculate();
+}
+
+function calculate() {
+    let rawInputString = document.getElementById('inputVal').value.replace(/,/g, '');
+    let x = parseFloat(rawInputString);
+    let output = document.getElementById('outputVal');
+    
+    if (isNaN(x) || isNaN(activeDivisor) || activeDivisor === 0 || x <= 0) {
+        output.innerText = "0";
+        return;
+    }
+    
+    let finalResult = 0;
+    if (isPesoToCoin) {
+        let rawResult = (x / activeDivisor) * 1000000;
+        finalResult = Math.floor(rawResult / 100) * 100;
+    } else {
+        let rawResult = (x / 1000000) * activeDivisor;
+        let firstDecimalDigit = Math.floor((rawResult + 0.00001) * 10) % 10;
+        if (firstDecimalDigit >= 1) {
+            finalResult = Math.ceil(rawResult);
+        } else {
+            finalResult = Math.floor(rawResult);
+        }
+    }
+    output.innerText = finalResult.toLocaleString();
+}
+
+// --- PRICELIST MODAL CONTROL & INDEPENDENT RECALL STORAGE ---
+function openPricelist() {
+    document.getElementById('pricelistOverlay').style.display = 'flex';
+    
+    if(localStorage.getItem('pl_lowBase')) {
+        document.getElementById('lowBaseInput').value = localStorage.getItem('pl_lowBase');
+    }
+    if(localStorage.getItem('pl_base')) {
+        document.getElementById('baseInput').value = localStorage.getItem('pl_base');
+    }
+    
+    if(localStorage.getItem('pl_palette_idx')) {
+        let savedIdx = parseInt(localStorage.getItem('pl_palette_idx'));
+        applyPaletteByIndex(savedIdx);
+    }
+
+    calculateMatrix();
+}
+
+function closePricelist() {
+    document.getElementById('pricelistOverlay').style.display = 'none';
+}
+
+const leftCoins = [
+    8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 20000, 30000, 
+    40000, 50000, 60000, 70000, 80000, 90000, 100000, 150000, 200000, 
+    250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000, 
+    650000, 700000, 750000, 800000, 850000, 900000, 950000, 1000000
+];
+const rightCosts = [
+    100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 
+    750, 800, 850, 900, 950, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 
+    4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000
+];
+const optimizedPalettes = [
+    { canvasBg: "#ffffff", title: "#1e3a8a", thBg: "#475569", thText: "#ffffff", calc: "#16a34a", greyBg: "#f1f5f9", greyTxt: "#0f172a", whiteBg: "#ffffff", whiteTxt: "#1e293b" }, 
+    { canvasBg: "#f7f9fc", title: "#2c3e50", thBg: "#16a085", thText: "#ffffff", calc: "#27ae60", greyBg: "#eaeded", greyTxt: "#2c3e50", whiteBg: "#ffffff", whiteTxt: "#34495e" }, 
+    { canvasBg: "#fffdf9", title: "#5c3d2e", thBg: "#865439", thText: "#ffffff", calc: "#b85c38", greyBg: "#f4eedb", greyTxt: "#5c3d2e", whiteBg: "#ffffff", whiteTxt: "#2d2424" }, 
+    { canvasBg: "#f5fdfb", title: "#0f4c5c", thBg: "#e36414", thText: "#ffffff", calc: "#5f0f40", greyBg: "#e9f7f5", greyTxt: "#0f4c5c", whiteBg: "#ffffff", whiteTxt: "#fb8b24" }
+];
+let lastPaletteIndex = 0;
+
+function applyRandomHarmonizedPalette() {
+    let nextIndex = lastPaletteIndex;
+    while (nextIndex === lastPaletteIndex) { nextIndex = Math.floor(Math.random() * optimizedPalettes.length); }
+    localStorage.setItem('pl_palette_idx', nextIndex);
+    applyPaletteByIndex(nextIndex);
+}
+
+// Fixed property assignments to clear out caching bugs completely
+function applyPaletteByIndex(index) {
+    lastPaletteIndex = index;
+    const choice = optimizedPalettes[index];
+    const root = document.documentElement;
+    root.style.setProperty('--canvas-bg', choice.canvasBg);
+    root.style.setProperty('--title-color', choice.title);
+    root.style.setProperty('--th-bg', choice.thBg);
+    root.style.setProperty('--th-text', choice.thText);
+    root.style.setProperty('--calc-result-color', choice.calc);
+    root.style.setProperty('--col-grey-bg', choice.greyBg);
+    root.style.setProperty('--col-grey-text', choice.greyTxt);
+    root.style.setProperty('--col-white-bg', choice.whiteBg);
+    root.style.setProperty('--col-white-text', choice.whiteTxt);
+}
+
+function saveAndCalculateMatrix() {
+    localStorage.setItem('pl_lowBase', document.getElementById('lowBaseInput').value);
+    localStorage.setItem('pl_base', document.getElementById('baseInput').value);
+    calculateMatrix();
+}
+
+function calculateMatrix() {
+    const baseVal = parseFloat(document.getElementById('baseInput').value);
+    const lowBaseVal = parseFloat(document.getElementById('lowBaseInput').value);
+    const tbody = document.getElementById('matrixBody');
+    tbody.innerHTML = '';
+
+    if (isNaN(baseVal) || baseVal <= 0 || isNaN(lowBaseVal) || lowBaseVal <= 0) return;
+
+    for (let i = 0; i < leftCoins.length; i++) {
+        const coinLeft = leftCoins[i];
+        const costRight = rightCosts[i];
+        const activeBaseVal = (coinLeft <= 15000) ? lowBaseVal : baseVal;
+
+        let exactPesosLeft = (coinLeft / 1000000) * activeBaseVal;
+        const wholePart = Math.floor(exactPesosLeft);
+        const firstDecimalDigit = Math.floor(parseFloat((exactPesosLeft - wholePart).toFixed(4)) * 10);
+        let computedCostLeft = (firstDecimalDigit >= 1) ? wholePart + 1 : wholePart;
+
+        const exactCoinsRight = (costRight / baseVal) * 1000000;
+        const computedCoinsRight = Math.floor(parseFloat(exactCoinsRight.toFixed(4)) / 100) * 100;
+
+        tbody.innerHTML += `
+            <tr>
+                <td class="col-grey calc-result">₱${computedCostLeft.toLocaleString()}</td>
+                <td class="col-white">${coinLeft.toLocaleString()}</td>
+                <td class="col-grey">₱${costRight.toLocaleString()}</td>
+                <td class="col-white calc-result">${computedCoinsRight.toLocaleString()}</td>
+            </tr>`;
+    }
+    adjustScale();
+}
+
+function adjustScale() {
+    const target = document.getElementById('photoTargetBlock');
+    const wrapper = document.getElementById('scaleWrapper');
+    const containerWidth = wrapper.clientWidth;
+    if(!containerWidth) return;
+    const scaleFactor = containerWidth / 1080;
+    target.style.transform = `scale(${scaleFactor})`;
+    wrapper.style.height = `${2800 * scaleFactor}px`;
+}
+
+function exportToPhoto() {
+    const baseVal = document.getElementById('baseInput').value;
+    const targetElement = document.getElementById('photoTargetBlock');
+    const currentTransform = targetElement.style.transform;
+    const currentBgColor = getComputedStyle(document.documentElement).getPropertyValue('--canvas-bg').trim();
+    targetElement.style.transform = 'none';
+
+    html2canvas(targetElement, {
+        width: 1080, height: 2800, scale: 1, logging: false, backgroundColor: currentBgColor
+    }).then(canvas => {
+        const downloadTrigger = document.createElement('a');
+        downloadTrigger.href = canvas.toDataURL("image/png");
+        downloadTrigger.download = `POPPO_COINS_${baseVal}.png`;
+        document.body.appendChild(downloadTrigger);
+        downloadTrigger.click();
+        document.body.removeChild(downloadTrigger);
+        targetElement.style.transform = currentTransform;
+        adjustScale();
+    });
+}
+
+function exportToPDF() {
+    const baseVal = document.getElementById('baseInput').value;
+    const targetElement = document.getElementById('photoTargetBlock');
+    const currentTransform = targetElement.style.transform;
+    const currentBgColor = getComputedStyle(document.documentElement).getPropertyValue('--canvas-bg').trim();
+    targetElement.style.transform = 'none';
+
+    html2canvas(targetElement, {
+        width: 1080, height: 2800, scale: 2, logging: false, backgroundColor: currentBgColor
+    }).then(canvas => {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'pt', 'a4'); 
+        const pageWidth = pdf.internal.pageSize.getWidth();   
+        const pageHeight = pdf.internal.pageSize.getHeight(); 
+        const cardWidth = pageWidth / 2; 
+        const cardHeight = cardWidth * (2800 / 1080); 
+        const startingY = (pageHeight - cardHeight) / 2;
+        
+        pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, startingY, cardWidth, cardHeight);
+        pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', cardWidth, startingY, cardWidth, cardHeight);
+        pdf.save(`POPPO_COINS_2x_Portrait_${baseVal}.pdf`);
+        targetElement.style.transform = currentTransform;
+        adjustScale();
+    });
+}
+
+window.addEventListener('resize', adjustScale);
+
+if(localStorage.getItem('pl_palette_idx')) {
+    applyPaletteByIndex(parseInt(localStorage.getItem('pl_palette_idx')));
+}
+
+// --- SERVICE WORKER REGISTRATION ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Offline mode ready.'))
+            .catch(err => console.log('Service worker failed', err));
+    });
+}
+</script>
+
+</body>
+</html>
