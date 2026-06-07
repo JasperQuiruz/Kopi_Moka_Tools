@@ -12,8 +12,9 @@
     <meta name="apple-mobile-web-app-title" content="Coin Converter">
     <meta name="mobile-web-app-capable" content="yes">
     
-    <link rel="apple-touch-icon" sizes="512x512" href="peso.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="peso.png">
+    <!-- App Icons updated to cloverleaf.png -->
+    <link rel="apple-touch-icon" sizes="512x512" href="cloverleaf.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="cloverleaf.png">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -81,11 +82,14 @@
             white-space: nowrap;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             z-index: 4;
+            line-height: 16px; 
+            height: 30px;      
+            box-sizing: border-box;
         }
 
         .mode-btn {
             position: absolute;
-            top: 17px;
+            top: 15px; 
             left: 15px;
             padding: 6px 12px;
             border-radius: 6px;
@@ -99,6 +103,8 @@
             letter-spacing: 0.3px;
             transition: background-color 0.2s ease;
             z-index: 5;
+            height: 30px; 
+            box-sizing: border-box;
         }
         
         .bg-green { background-color: #2e7d32; }
@@ -109,33 +115,38 @@
         /* ACTIONS WRAPPER (TOP RIGHT CORNER) */
         .top-right-actions {
             position: absolute;
-            top: 18px;
+            top: 15px; 
             right: 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             z-index: 5;
+            height: 30px; 
         }
 
         .action-icon-btn {
             cursor: pointer;
             user-select: none;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, background-color 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 6px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.35);
+            padding: 6px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            height: 30px; 
+            width: 30px;  
+            box-sizing: border-box;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         .action-icon-btn:hover {
-            transform: scale(1.15);
-            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.08);
+            background: rgba(255, 255, 255, 0.55);
         }
         .action-icon-btn img {
-            width: 20px;
-            height: 20px;
+            width: 16px; 
+            height: 16px;
             object-fit: contain;
         }
         
@@ -293,8 +304,8 @@
             z-index: 2000;
             justify-content: center;
             align-items: flex-start;
-            overflow-x: hidden; /* Lock horizontal slide */
-            overflow-y: auto; /* Allow natural scrolling */
+            overflow-x: hidden; 
+            overflow-y: auto; 
             padding: 15px 0;
             -webkit-overflow-scrolling: touch;
         }
@@ -308,7 +319,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Hard lock horizontal layout escaping */
+            overflow: hidden; 
             margin-top: 5px;
             margin-bottom: 20px;
         }
@@ -366,7 +377,7 @@
         /* SCALER WRAPPER LOCK FOR HIGH-RESOLUTION PREVIEW */
         .scale-wrapper-inner {
             width: 100%;
-            overflow: hidden; /* Stop horizontal shifting/overflow entirely */
+            overflow: hidden; 
             background: #ddd;
             display: flex;
             justify-content: center;
@@ -374,7 +385,7 @@
             padding: 0;
             margin: 0;
             box-sizing: border-box;
-            touch-action: pan-y; /* Force touch responses to remain vertical-only */
+            touch-action: pan-y; 
         }
 
         :root {
@@ -447,7 +458,7 @@
         <span class="close-btn" onclick="closeSettings()">✕</span>
         <label for="divisorVal">Modify Divisor Rule:</label>
         <input type="number" id="divisorVal" value="62.6" step="0.1">
-
+        
         <button class="btn-save" onclick="saveSettings()">Save Changes</button>
     </div>
 </div>
@@ -492,7 +503,7 @@
         </div>
     </div>
 </div>
-
+    
 <script>
 // --- CALCULATOR LOGIC ENGINE ---
 let isPesoToCoin = true;
@@ -606,7 +617,6 @@ function calculate() {
 function openPricelist() {
     document.getElementById('pricelistOverlay').style.display = 'flex';
     
-    // Check if user has explicit inputs saved for the pricelist matrix fields, otherwise provide baseline values
     if(localStorage.getItem('pl_lowBase')) {
         document.getElementById('lowBaseInput').value = localStorage.getItem('pl_lowBase');
     }
@@ -614,7 +624,6 @@ function openPricelist() {
         document.getElementById('baseInput').value = localStorage.getItem('pl_base');
     }
     
-    // Reload Palette Selection state if it exists
     if(localStorage.getItem('pl_palette_idx')) {
         let savedIdx = parseInt(localStorage.getItem('pl_palette_idx'));
         applyPaletteByIndex(savedIdx);
@@ -765,12 +774,10 @@ function exportToPDF() {
 
 window.addEventListener('resize', adjustScale);
 
-// Initial state load
 if(localStorage.getItem('pl_palette_idx')) {
     applyPaletteByIndex(parseInt(localStorage.getItem('pl_palette_idx')));
 }
 
-// --- SERVICE WORKER REGISTRATION ---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js')
