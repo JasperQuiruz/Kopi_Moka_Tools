@@ -1,6 +1,6 @@
 {
-  "name": "KOPI_MOKA TOOLS",
-  "short_name": "KOPI_MOKA",
+  "name": "KOPI_MOKA_TOOLS",
+  "short_name": "KOPI_MOKA TOOLS",
   "description": "Instant PHP/Coin Converter & Pricelist Management Tool",
   "start_url": "index.html",
   "display": "standalone",
@@ -9,13 +9,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "peso.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/15518/15518551.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "peso.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/15518/15518551.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
