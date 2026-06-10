@@ -369,11 +369,11 @@
         /* FIXED ABSOLUTE RENDERING SIZE */
         #photoTargetBlock {
             width: 1080px !important;
-            height: 2800px !important;
+            height: 2824px !important;
             min-width: 1080px !important;
             max-width: 1080px !important;
-            min-height: 2800px !important;
-            max-height: 2800px !important;
+            min-height: 2824px !important;
+            max-height: 2824px !important;
             padding: 40px 30px; 
             display: flex; 
             flex-direction: column;
@@ -406,16 +406,20 @@
         /* FIXED TABLE GRID ELEMENT */
         table { 
             width: 100%; 
-            height: 2592px;
+            height: 2616px;
             border-collapse: collapse; 
             text-align: center; 
             table-layout: fixed; 
             box-sizing: border-box;
         }
         
-        /* FIXED RIGID 72px HEIGHT PER ROW (36 TOTAL ROWS = 2592px) */
+        /* FIXED RIGID 72px HEIGHT PER ROW (35 DATA ROWS + 1 HEADER ROW = 2616px) */
         tr { 
             height: 72px !important; 
+        }
+
+        #tableHeaderRow {
+            height: 100px !important;
         }
         
         th, td { 
@@ -430,8 +434,8 @@
         th { 
             background-color: var(--th-bg); 
             color: var(--th-text); 
-            font-weight: bold; 
-            font-size: 44px; 
+            font-weight: 800; 
+            font-size: 46px; 
             letter-spacing: 1px; 
             cursor: pointer; 
         }
@@ -1089,7 +1093,7 @@ function adjustScale() {
     if(!containerWidth) return;
     const scaleFactor = containerWidth / 1080;
     target.style.transform = `scale(${scaleFactor})`;
-    wrapper.style.height = `${2800 * scaleFactor}px`;
+    wrapper.style.height = `${2824 * scaleFactor}px`;
 }
 
 document.addEventListener('click', function(event) {
@@ -1122,12 +1126,12 @@ function exportToPhoto() {
 
     html2canvas(targetElement, {
         width: 1080, 
-        height: 2800, 
+        height: 2824, 
         scale: 1, 
         scrollX: 0,
         scrollY: 0,
         windowWidth: 1080,
-        windowHeight: 2800,
+        windowHeight: 2824,
         logging: false, 
         backgroundColor: currentBgColor
     }).then(canvas => {
@@ -1153,12 +1157,12 @@ function exportToPDF() {
 
     html2canvas(targetElement, {
         width: 1080, 
-        height: 2800, 
+        height: 2824, 
         scale: 2, 
         scrollX: 0,
         scrollY: 0,
         windowWidth: 1080,
-        windowHeight: 2800,
+        windowHeight: 2824,
         logging: false, 
         backgroundColor: currentBgColor
     }).then(canvas => {
@@ -1167,7 +1171,7 @@ function exportToPDF() {
         const pageWidth = pdf.internal.pageSize.getWidth();   
         const pageHeight = pdf.internal.pageSize.getHeight(); 
         const cardWidth = pageWidth / 2; 
-        const cardHeight = cardWidth * (2800 / 1080); 
+        const cardHeight = cardWidth * (2824 / 1080); 
         const startingY = (pageHeight - cardHeight) / 2;
         
         pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, startingY, cardWidth, cardHeight);
