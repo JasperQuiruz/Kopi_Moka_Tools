@@ -1114,36 +1114,63 @@ document.addEventListener('click', function(event) {
     }
 });
 
-/* FIXED EXPORT FUNCTIONS TO PREVENT WINDOW CLIPPING GAPS */
+/* FIXED EXPORT FUNCTIONS TO PREVENT WINDOW CLIPPING GAPS & CONTEXT LOCKUPS */
 function exportToPhoto() {
     const baseVal = document.getElementById('baseInput').value;
     const targetElement = document.getElementById('photoTargetBlock');
     const currentTransform = targetElement.style.transform;
     const currentBgColor = getComputedStyle(document.documentElement).getPropertyValue('--canvas-bg').trim();
     
-    targetElement.style.transform = 'none';
-    window.scrollTo(0,0);
+    // Save and clear the specific scroll position of the custom overlay container
+    const overlay = document.getElementById('pricelistOverlay');
+    const prevScrollTop = overlay ? overlay.scrollTop : 0;
+    if (overlay) overlay.scrollTop = 0; 
 
-    html2canvas(targetElement, {
-        width: 1080, 
-        height: 2824, 
-        scale: 1, 
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: 1080,
-        windowHeight: 2824,
-        logging: false, 
-        backgroundColor: currentBgColor
-    }).then(canvas => {
-        const downloadTrigger = document.createElement('a');
-        downloadTrigger.href = canvas.toDataURL("image/png");
-        downloadTrigger.download = `POPPO_COINS_${baseVal}.png`;
-        document.body.appendChild(downloadTrigger);
-        downloadTrigger.click();
-        document.body.removeChild(downloadTrigger);
-        targetElement.style.transform = currentTransform;
-        adjustScale();
-    });
+    // Strip transform dynamically
+    targetElement.style.transform = 'none';
+    window.scrollTo(0, 0);
+
+    // Give the PWA rendering architecture a brief moment to pass a layout reflow 
+    setTimeout(() => {
+        html2canvas(targetElement, {
+            width: 1080, 
+            height: 2824, 
+            scale: 1, 
+            scrollX: 0,
+            scrollY: 0,
+            x: 0, // Force local top coordinate anchoring
+            y: 0, // Force local left coordinate anchoring
+            windowWidth: 1080,
+            windowHeight: 2824,
+            logging: false, 
+            backgroundColor: currentBgColor,
+            useCORS: true
+        }).then(canvas => {
+            try {
+                const downloadTrigger = document.createElement('a');
+                downloadTrigger.href = canvas.toDataURL("image/png");
+                downloadTrigger.download = `POPPO_COINS_${baseVal}.png`;
+                document.body.appendChild(downloadTrigger);
+                downloadTrigger.click();
+                document.body.removeChild(downloadTrigger);
+            } catch (err) {
+                console.error("Error during download serialization:", err);
+                alert("Export failed: App sandbox memory limits exceeded.");
+            } finally {
+                // Guaranteed safety fallback execution
+                targetElement.style.transform = currentTransform;
+                if (overlay) overlay.scrollTop = prevScrollTop;
+                adjustScale();
+                canvas = null; // Free memory context pointer immediately
+            }
+        }).catch(error => {
+            console.error("html2canvas generation error:", error);
+            targetElement.style.transform = currentTransform;
+            if (overlay) overlay.scrollTop = prevScrollTop;
+            adjustScale();
+            alert("Could not compile image asset. Please try again.");
+        });
+    }, 60); // 60ms delay ensures browser layout engines execute a paint cycle
 }
 
 function exportToPDF() {
@@ -1152,34 +1179,57 @@ function exportToPDF() {
     const currentTransform = targetElement.style.transform;
     const currentBgColor = getComputedStyle(document.documentElement).getPropertyValue('--canvas-bg').trim();
     
-    targetElement.style.transform = 'none';
-    window.scrollTo(0,0);
+    const overlay = document.getElementById('pricelistOverlay');
+    const prevScrollTop = overlay ? overlay.scrollTop : 0;
+    if (overlay) overlay.scrollTop = 0;
 
-    html2canvas(targetElement, {
-        width: 1080, 
-        height: 2824, 
-        scale: 2, 
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: 1080,
-        windowHeight: 2824,
-        logging: false, 
-        backgroundColor: currentBgColor
-    }).then(canvas => {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'pt', 'a4'); 
-        const pageWidth = pdf.internal.pageSize.getWidth();   
-        const pageHeight = pdf.internal.pageSize.getHeight(); 
-        const cardWidth = pageWidth / 2; 
-        const cardHeight = cardWidth * (2824 / 1080); 
-        const startingY = (pageHeight - cardHeight) / 2;
-        
-        pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, startingY, cardWidth, cardHeight);
-        pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', cardWidth, startingY, cardWidth, cardHeight);
-        pdf.save(`POPPO_COINS_2x_Portrait_${baseVal}.pdf`);
-        targetElement.style.transform = currentTransform;
-        adjustScale();
-    });
+    targetElement.style.transform = 'none';
+    window.scrollTo(0, 0);
+
+    setTimeout(() => {
+        html2canvas(targetElement, {
+            width: 1080, 
+            height: 2824, 
+            scale: 2, 
+            scrollX: 0,
+            scrollY: 0,
+            x: 0,
+            y: 0,
+            windowWidth: 1080,
+            windowHeight: 2824,
+            logging: false, 
+            backgroundColor: currentBgColor,
+            useCORS: true
+        }).then(canvas => {
+            try {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'pt', 'a4'); 
+                const pageWidth = pdf.internal.pageSize.getWidth();   
+                const pageHeight = pdf.internal.pageSize.getHeight(); 
+                const cardWidth = pageWidth / 2; 
+                const cardHeight = cardWidth * (2824 / 1080); 
+                const startingY = (pageHeight - cardHeight) / 2;
+                
+                pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, startingY, cardWidth, cardHeight);
+                pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', cardWidth, startingY, cardWidth, cardHeight);
+                pdf.save(`POPPO_COINS_2x_Portrait_${baseVal}.pdf`);
+            } catch (err) {
+                console.error("PDF engine composition error:", err);
+                alert("Failed to compile PDF binary data.");
+            } finally {
+                targetElement.style.transform = currentTransform;
+                if (overlay) overlay.scrollTop = prevScrollTop;
+                adjustScale();
+                canvas = null; 
+            }
+        }).catch(error => {
+            console.error("html2canvas PDF generation error:", error);
+            targetElement.style.transform = currentTransform;
+            if (overlay) overlay.scrollTop = prevScrollTop;
+            adjustScale();
+            alert("Could not compile PDF asset. Please try again.");
+        });
+    }, 60);
 }
 
 window.addEventListener('resize', adjustScale);
