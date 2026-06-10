@@ -1,12 +1,12 @@
 {
   "name": "Instant PHP/Coin Converter & Pricelist",
-  "short_name": "Coin Converter",
-  "description": "Instant PHP/Coin Converter & Pricelist Management Tool",
+  "short_name": "CoinConverter",
+  "description": "Instant currency to Poppo coin converter with interactive colorable pricelist tables.",
   "start_url": "index.html",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#1b5e20",
-  "theme_color": "#1b5e20",
-  "orientation": "portrait-primary",
+  "theme_color": "#2e7d32",
   "icons": [
     {
       "src": "nature.png",
