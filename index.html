@@ -1214,12 +1214,15 @@ function exportToPDF() {
                 const pdf = new jsPDF('p', 'pt', 'a4'); 
                 const pageWidth = pdf.internal.pageSize.getWidth();   
                 const pageHeight = pdf.internal.pageSize.getHeight(); 
-                const cardWidth = pageWidth / 2; 
-                const cardHeight = cardWidth * (2824 / 1080); 
-                const startingY = (pageHeight - cardHeight) / 2;
                 
-                pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, startingY, cardWidth, cardHeight);
-                pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', cardWidth, startingY, cardWidth, cardHeight);
+                // Force each image to exactly 50% width and 100% height of the A4 page
+                const cardWidth = pageWidth / 2; 
+                const cardHeight = pageHeight; 
+                
+                // Start drawing at exactly 0 on the Y-axis (top) and X-axis (left edge / middle edge)
+                pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', 0, 0, cardWidth, cardHeight);
+                pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', cardWidth, 0, cardWidth, cardHeight);
+                
                 pdf.save(`POPPO_COINS_2x_Portrait_${baseVal}.pdf`);
             } catch (err) {
                 console.error("PDF engine composition error:", err);
